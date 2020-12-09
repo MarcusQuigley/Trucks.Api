@@ -1,4 +1,6 @@
-﻿namespace Trucks.Api.Model.Models
+﻿using System.Collections.Generic;
+
+namespace Trucks.Api.Model.Models
 {
     public class Truck
     {
@@ -10,6 +12,7 @@
 
         public int TruckInventoryId { get; set; }
         public TruckInventory TruckInventory { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
     }
 }
