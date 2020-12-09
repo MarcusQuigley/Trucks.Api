@@ -6,9 +6,13 @@ namespace Trucks.Api.Model.Models
     {
         public int TruckId { get; set; }
         public string Name { get; set; }
+        public int Year { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public decimal PreviousPrice { get; set; }
+        public bool Hidden { get; set; }
+        public bool Damaged { get; set; }
+        public string DefaultPhotoPath { get; set; }
 
         public int TruckInventoryId { get; set; }
         public TruckInventory TruckInventory { get; set; }

@@ -15,6 +15,11 @@ namespace Trucks.Api.DataAccess.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<Truck>(entity => {
+            //    entity.Property(t => t.Name).IsRequired();
+            //    entity.Property(t => t.Description).IsRequired();
+            //    entity.Property(t => t.Price).IsRequired();
+            //});
             //compositeKey
             modelBuilder.Entity<TruckCategory>().HasKey(tc => new { tc.CategoryId, tc.TruckId });
 
