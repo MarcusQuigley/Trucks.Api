@@ -2,25 +2,21 @@
 
 namespace Trucks.Api.DataAccess.Migrations
 {
-    public partial class AddingLinkTrucktoTruckInventory4 : Migration
+    public partial class Creating1to1LinkInventoryandTruckTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "InventoryId",
+                name: "TruckInventoryId",
                 table: "Trucks",
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<int>(
-                name: "TruckInventoryId",
-                table: "Trucks",
-                nullable: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Trucks_TruckInventoryId",
                 table: "Trucks",
-                column: "TruckInventoryId");
+                column: "TruckInventoryId",
+                unique: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Trucks_TruckInventories_TruckInventoryId",
@@ -28,7 +24,7 @@ namespace Trucks.Api.DataAccess.Migrations
                 column: "TruckInventoryId",
                 principalTable: "TruckInventories",
                 principalColumn: "TruckInventoryId",
-                onDelete: ReferentialAction.Restrict);
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -39,10 +35,6 @@ namespace Trucks.Api.DataAccess.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_Trucks_TruckInventoryId",
-                table: "Trucks");
-
-            migrationBuilder.DropColumn(
-                name: "InventoryId",
                 table: "Trucks");
 
             migrationBuilder.DropColumn(

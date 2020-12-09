@@ -8,8 +8,8 @@ using Trucks.Api.DataAccess.Data;
 namespace Trucks.Api.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201209201207_AddingTruckInventorytable2")]
-    partial class AddingTruckInventorytable2
+    [Migration("20201209205417_Creating1to1LinkInventoryandTruckTables")]
+    partial class Creating1to1LinkInventoryandTruckTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,9 +41,6 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("InventoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -53,7 +50,13 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<int>("TruckInventoryId")
+                        .HasColumnType("int");
+
                     b.HasKey("TruckId");
+
+                    b.HasIndex("TruckInventoryId")
+                        .IsUnique();
 
                     b.ToTable("Trucks");
                 });
@@ -70,6 +73,15 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.HasKey("TruckInventoryId");
 
                     b.ToTable("TruckInventories");
+                });
+
+            modelBuilder.Entity("Trucks.Api.Model.Models.Truck", b =>
+                {
+                    b.HasOne("Trucks.Api.Model.Models.TruckInventory", "TruckInventory")
+                        .WithOne("Truck")
+                        .HasForeignKey("Trucks.Api.Model.Models.Truck", "TruckInventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

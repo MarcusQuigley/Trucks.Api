@@ -53,7 +53,8 @@ namespace Trucks.Api.DataAccess.Migrations
 
                     b.HasKey("TruckId");
 
-                    b.HasIndex("TruckInventoryId");
+                    b.HasIndex("TruckInventoryId")
+                        .IsUnique();
 
                     b.ToTable("Trucks");
                 });
@@ -75,8 +76,8 @@ namespace Trucks.Api.DataAccess.Migrations
             modelBuilder.Entity("Trucks.Api.Model.Models.Truck", b =>
                 {
                     b.HasOne("Trucks.Api.Model.Models.TruckInventory", "TruckInventory")
-                        .WithMany()
-                        .HasForeignKey("TruckInventoryId")
+                        .WithOne("Truck")
+                        .HasForeignKey("Trucks.Api.Model.Models.Truck", "TruckInventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
