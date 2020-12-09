@@ -11,5 +11,15 @@ namespace Trucks.Api.DataAccess.Data
         public DbSet<Truck> Trucks { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TruckInventory> TruckInventories { get; set; }
+        public DbSet<TruckCategory> TruckCategories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //compositeKey
+            modelBuilder.Entity<TruckCategory>().HasKey(tc => new { tc.CategoryId, tc.TruckId });
+
+
+        }
+
     }
 }
