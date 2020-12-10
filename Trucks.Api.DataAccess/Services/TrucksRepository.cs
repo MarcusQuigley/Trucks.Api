@@ -44,6 +44,7 @@ namespace Trucks.Api.DataAccess.Services
         {
             return await _context.Trucks.Where(t => t.Hidden == false)
                                         .Include(t => t.TruckCategories)
+                                        .Include(t => t.Photos)
                                         .ToListAsync();
         }
 
@@ -76,9 +77,31 @@ namespace Trucks.Api.DataAccess.Services
             throw new NotImplementedException();
         }
 
-        public Task AddTruckPhoto(Photo truckPhoto)
+        public async Task AddTruckPhotoAsync(Photo truckPhoto)
         {
-            throw new NotImplementedException();
+            if (await TruckExistsAsync(truckPhoto.TruckId)) {
+                await _context.TruckPhotos.AddAsync(truckPhoto);
+                if (!await HasTruckDefaultPhoto(truckPhoto.TruckId))
+                    await UpdateDefaultPhotoAsync(truckPhoto);
+            }
+        }
+
+        public async Task UpdateDefaultPhotoAsync(Photo truckPhoto)
+        {
+            var truck = await GetTruckAsync(truckPhoto.TruckId);
+            if (truck != null) {
+                truck.DefaultPhotoPath = truckPhoto.PhotoPath;
+                _context.Trucks.Update(truck);
+            }
+
+        }
+        private async Task<bool> HasTruckDefaultPhoto(int truckId)
+        {
+            if (await TruckExistsAsync(truckId))
+                return _context.Trucks.Where(t => t.TruckId == truckId)
+                                      .Where(t => !string.IsNullOrEmpty(t.DefaultPhotoPath))
+                                      .Any();
+            return false;
         }
 
         public async Task DeleteTruckAsync(Truck truck)
@@ -86,10 +109,7 @@ namespace Trucks.Api.DataAccess.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateDefaultPhoto(Photo truckPhoto)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<bool> SaveChangesAsync()
         {

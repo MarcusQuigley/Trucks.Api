@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Trucks.Api.Dto
 {
@@ -15,7 +16,7 @@ namespace Trucks.Api.Dto
         //public ICollection<TruckCategoryDto> Categories { get; set; }
         //   = new List<TruckCategoryDto>();
 
-        //public ICollection<PhotoDto> Photos { get; set; }
-        //    = new List<PhotoDto>();
+        public ICollection<PhotoDto> Photos { get; set; }
+            = new List<PhotoDto>();
     }
 }

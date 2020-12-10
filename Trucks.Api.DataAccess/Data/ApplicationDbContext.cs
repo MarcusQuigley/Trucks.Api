@@ -13,6 +13,7 @@ namespace Trucks.Api.DataAccess.Data
         public DbSet<TruckInventory> TruckInventories { get; set; }
         public DbSet<TruckCategory> TruckCategories { get; set; }
 
+        public DbSet<Photo> TruckPhotos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Truck>(entity => {

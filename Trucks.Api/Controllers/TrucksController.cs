@@ -37,8 +37,8 @@ namespace Trucks.Api.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateTruck(Dto.TruckDto truckDto)
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateTruck([FromBody] Dto.TruckDto truckDto)
         {
             if (ModelState.IsValid) {
                 var truck = _mapper.Map<Truck>(truckDto);
@@ -46,12 +46,22 @@ namespace Trucks.Api.Controllers
                 if (await _trucksRepository.SaveChangesAsync() != false) {
                     var newTruckDto = _mapper.Map<Dto.TruckDto>(truck);
                     return CreatedAtRoute("GetTruck", new { truckId = truck.TruckId }, newTruckDto);
-
                 }
-
             }
             return BadRequest();
         }
 
+        [HttpPost]
+        [Route("truckphoto")]
+        public async Task<ActionResult> CreateTruckPhoto([FromBody] Dto.PhotoDto photoDto)
+        {
+            if (ModelState.IsValid) {
+                var photo = _mapper.Map<Photo>(photoDto);
+                await _trucksRepository.AddTruckPhotoAsync(photo);
+                if (await _trucksRepository.SaveChangesAsync() != false)
+                    return Ok();
+            }
+            return BadRequest();
+        }
     }
 }
