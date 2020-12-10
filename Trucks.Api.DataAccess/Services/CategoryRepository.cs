@@ -21,6 +21,11 @@ namespace Trucks.Api.DataAccess.Services
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        private async Task<bool> CategoryExistsAsync(int categoryId)
+        {
+            return await _context.Categories.AnyAsync(c => c.CategoryId == categoryId);
+        }
+
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             return await _context.Categories.ToListAsync();
@@ -31,9 +36,12 @@ namespace Trucks.Api.DataAccess.Services
             return await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == categoryId);
         }
 
-        public void AddCategory(Category category)
+        public async Task AddCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            if (category == null) {
+                throw new ArgumentNullException(nameof(category));
+            }
+            await _context.Categories.AddAsync(category);
         }
 
         public void UpdateCategory(Category category)
@@ -41,9 +49,10 @@ namespace Trucks.Api.DataAccess.Services
             throw new NotImplementedException();
         }
 
-        public void DeleteCategory(Category category)
+        public async Task DeleteCategoryAsync(Category category)
         {
-            throw new NotImplementedException();
+            if (await CategoryExistsAsync(category.CategoryId))
+                _context.Categories.Remove(category);
         }
 
         public void AddTruckCategory(TruckCategory truckCategory)
@@ -51,9 +60,9 @@ namespace Trucks.Api.DataAccess.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public void Dispose()

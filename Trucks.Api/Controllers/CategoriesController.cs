@@ -4,6 +4,8 @@ using System;
 using System.Threading.Tasks;
 using Trucks.Api.ControllerFilters;
 using Trucks.Api.DataAccess.Services;
+using Trucks.Api.Dto;
+using Trucks.Api.Model.Models;
 
 namespace Trucks.Api.Controllers
 {
@@ -22,11 +24,45 @@ namespace Trucks.Api.Controllers
 
         [HttpGet]
         [CategoriesResultFilter]
-        public async Task<ActionResult> GetCategories()
+        public async Task<ActionResult> GetCategoriesAsync()
         {
             var categoriesModels = await _categoryRepository.GetCategoriesAsync();
             return Ok(categoriesModels);
 
+        }
+
+        [HttpGet("{categoryId:int}", Name = "GetCategory")]
+        [CategoryResultFilter]
+        public async Task<ActionResult> GetCategoryAsync(int categoryId)
+        {
+            var categoryModel = await _categoryRepository.GetCategoryAsync(categoryId);
+            return Ok(categoryModel);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateCategoryAsync(CategoryDto category)
+        {
+            var categoryModel = _mapper.Map<Category>(category);
+            await _categoryRepository.AddCategoryAsync(categoryModel);
+            if (await _categoryRepository.SaveChangesAsync() != false) {
+                var categoryDto = _mapper.Map<CategoryDto>(categoryModel);
+                return CreatedAtRoute("GetCategory", new { categoryId = categoryDto.CategoryId }, categoryDto);
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("{categoryId:int}")]
+        public async Task<ActionResult> DeleteCategoryAsync(int categoryId)
+        {
+            // var categoryModel = _mapper.Map<Category>(category);
+            var categoryModel = await _categoryRepository.GetCategoryAsync(categoryId);
+            if (categoryModel == null)
+                return NotFound();
+            await _categoryRepository.DeleteCategoryAsync(categoryModel);
+            if (await _categoryRepository.SaveChangesAsync() != false)
+                return NoContent();
+            return BadRequest();
         }
 
     }

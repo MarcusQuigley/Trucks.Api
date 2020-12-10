@@ -6,13 +6,11 @@ namespace Trucks.Api.DataAccess.Services
 {
     public interface ICategoryRepository
     {
-        // IEnumerable<Category> GetCategories();
         Task<IEnumerable<Category>> GetCategoriesAsync();
-        //Category GetCategory(int categoryId);
         Task<Category> GetCategoryAsync(int categoryId);
-        void AddCategory(Category category);
+        Task AddCategoryAsync(Category category);
         void UpdateCategory(Category category);
-        void DeleteCategory(Category category);
+        Task DeleteCategoryAsync(Category category);
         void AddTruckCategory(TruckCategory truckCategory);
         Task<bool> SaveChangesAsync();
     }
