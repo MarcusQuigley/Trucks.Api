@@ -27,6 +27,8 @@ namespace Trucks.Api
                 Configuration.GetConnectionString("DatabaseConnection")
                 ));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddScoped<ITrucksRepository, TrucksRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddControllers();
         }

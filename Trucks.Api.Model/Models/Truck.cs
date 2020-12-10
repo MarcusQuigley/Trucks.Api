@@ -17,8 +17,11 @@ namespace Trucks.Api.Model.Models
         public int TruckInventoryId { get; set; }
         public TruckInventory TruckInventory { get; set; }
         public ICollection<Photo> Photos { get; set; }
+         = new List<Photo>();
         public ICollection<TruckCategory> TruckCategories { get; set; }
+         = new List<TruckCategory>();
         public ICollection<SalesOrderDetail> Sales { get; set; }
+         = new List<SalesOrderDetail>();
 
     }
 }
