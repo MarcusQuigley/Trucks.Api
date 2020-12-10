@@ -19,10 +19,18 @@ namespace Trucks.Api.DataAccess.Data
                 entity.Property(t => t.Name).IsRequired();
                 entity.Property(t => t.Description).IsRequired();
                 entity.Property(t => t.Price).IsRequired();
+                entity.HasOne(t => t.TruckInventory)
+                      .WithOne(ti => ti.Truck)
+                      //.HasForeignKey<Truck>("TruckInventoryId")
+                      .HasForeignKey<TruckInventory>(ti => ti.TruckInventoryId)
+                      ;
             });
 
             modelBuilder.Entity<Photo>(entity => {
-                entity.Property(t => t.PhotoPath).IsRequired();
+                entity.Property(p => p.PhotoPath).IsRequired();
+                entity.HasOne(p => p.Truck)
+                      .WithMany(t => t.Photos)
+                      .HasForeignKey(p => p.TruckId);
             });
 
             modelBuilder.Entity<Category>(entity => {
@@ -30,11 +38,21 @@ namespace Trucks.Api.DataAccess.Data
             });
 
             modelBuilder.Entity<TruckInventory>(entity => {
-                entity.Property(t => t.Quantity).IsRequired();
+                entity.Property(ti => ti.Quantity).IsRequired();
+
+
+            });
+            modelBuilder.Entity<TruckCategory>(entity => {
+                entity.HasKey(tc => new { tc.TruckId, tc.CategoryId });
+                entity.HasOne(tc => tc.Category)
+                      .WithMany(c => c.TruckCategories)
+                      .HasForeignKey(tc => tc.CategoryId);
+                entity.HasOne(tc => tc.Truck)
+                      .WithMany(t => t.TruckCategories)
+                      .HasForeignKey(tc => tc.TruckId);
+
             });
 
-            //compositeKey
-            modelBuilder.Entity<TruckCategory>().HasKey(tc => new { tc.CategoryId, tc.TruckId });
 
 
         }

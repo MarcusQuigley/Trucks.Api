@@ -2,7 +2,7 @@
 
 namespace Trucks.Api.DataAccess.Migrations
 {
-    public partial class AddingManytoManyTrucksandCategorysWithTruckCategory : Migration
+    public partial class fixingsomething : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace Trucks.Api.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TruckCategories", x => new { x.CategoryId, x.TruckId });
+                    table.PrimaryKey("PK_TruckCategories", x => new { x.TruckId, x.CategoryId });
                     table.ForeignKey(
                         name: "FK_TruckCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -31,9 +31,9 @@ namespace Trucks.Api.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TruckCategories_TruckId",
+                name: "IX_TruckCategories_CategoryId",
                 table: "TruckCategories",
-                column: "TruckId");
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
