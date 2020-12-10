@@ -53,9 +53,23 @@ namespace Trucks.Api.DataAccess.Data
 
             });
 
+            modelBuilder.Entity<SalesOrder>(entity => {
+                entity.Property(so => so.OrderDate).IsRequired();
+                entity.Property(so => so.CustomerDetailsId).IsRequired();
+                entity.Property(so => so.TotalDue).IsRequired();
+                entity.Property(so => so.SalesOrderDetailId).IsRequired();
+                entity.HasOne(so => so.SalesDetail)
+                      .WithOne(sod => sod.SalesOrder)
+                      .HasForeignKey<SalesOrderDetail>(sod => sod.SalesOrderDetailId);
+            });
 
+            modelBuilder.Entity<SalesOrderDetail>(entity => {
+                entity.Property(sod => sod.Quantity).IsRequired();
+                entity.HasOne(sod => sod.Truck)
+                              .WithMany(t => t.Sales)
+                              .HasForeignKey(p => p.TruckId);
+            });
 
         }
-
     }
 }

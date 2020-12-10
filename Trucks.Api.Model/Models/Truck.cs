@@ -18,6 +18,7 @@ namespace Trucks.Api.Model.Models
         public TruckInventory TruckInventory { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<TruckCategory> TruckCategories { get; set; }
+        public ICollection<SalesOrderDetail> Sales { get; set; }
 
     }
 }
