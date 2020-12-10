@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using Trucks.Api.DataAccess.Data;
+using Trucks.Api.DataAccess.Services;
 
 namespace Trucks.Api
 {
@@ -23,6 +26,8 @@ namespace Trucks.Api
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySQL(
                 Configuration.GetConnectionString("DatabaseConnection")
                 ));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddControllers();
         }
 
