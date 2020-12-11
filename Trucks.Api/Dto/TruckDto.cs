@@ -12,7 +12,7 @@ namespace Trucks.Api.Dto
         public Decimal PreviousPrice { get; set; }
         public string Description { get; set; }
         public string DefaultPhotoPath { get; set; }
-        //public TruckInventoryDto Inventory { get; set; }
+        public TruckInventoryDto Inventory { get; set; }
         //public ICollection<TruckCategoryDto> Categories { get; set; }
         //   = new List<TruckCategoryDto>();
 
