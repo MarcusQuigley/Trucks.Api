@@ -131,7 +131,7 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("TruckInventoryId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -155,22 +155,6 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("TruckCategories");
-                });
-
-            modelBuilder.Entity("Trucks.Api.Model.Models.TruckInventory", b =>
-                {
-                    b.Property<int>("TruckInventoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("TruckInventoryId");
-
-                    b.ToTable("TruckInventories");
                 });
 
             modelBuilder.Entity("Trucks.Api.Model.Models.Photo", b =>
@@ -208,15 +192,6 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.HasOne("Trucks.Api.Model.Models.Truck", "Truck")
                         .WithMany("TruckCategories")
                         .HasForeignKey("TruckId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Trucks.Api.Model.Models.TruckInventory", b =>
-                {
-                    b.HasOne("Trucks.Api.Model.Models.Truck", "Truck")
-                        .WithOne("TruckInventory")
-                        .HasForeignKey("Trucks.Api.Model.Models.TruckInventory", "TruckInventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -15,9 +15,7 @@ namespace Trucks.Api.Mapping
             //CreateMap<Dto.TruckCategoryDto, TruckCategory>()
             //    .ReverseMap();
 
-            CreateMap<TruckInventory, Dto.TruckInventoryDto>();
-            CreateMap<Dto.TruckInventoryDto, TruckInventory>()
-                .ReverseMap();
+
 
         }
     }

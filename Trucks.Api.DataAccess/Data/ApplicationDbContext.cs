@@ -10,7 +10,7 @@ namespace Trucks.Api.DataAccess.Data
 
         public DbSet<Truck> Trucks { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<TruckInventory> TruckInventories { get; set; }
+
         public DbSet<TruckCategory> TruckCategories { get; set; }
 
         public DbSet<Photo> TruckPhotos { get; set; }
@@ -20,11 +20,10 @@ namespace Trucks.Api.DataAccess.Data
                 entity.Property(t => t.Name).IsRequired();
                 entity.Property(t => t.Description).IsRequired();
                 entity.Property(t => t.Price).IsRequired();
-                entity.HasOne(t => t.TruckInventory)
-                      .WithOne(ti => ti.Truck)
-                      //.HasForeignKey<Truck>("TruckInventoryId")
-                      .HasForeignKey<TruckInventory>(ti => ti.TruckInventoryId)
-                      ;
+                //entity.HasOne(t => t.TruckInventory)
+                //      .WithOne(ti => ti.Truck)
+                //      .HasForeignKey<Truck>(t => t.TruckInventoryId)
+                //      ;
             });
 
             modelBuilder.Entity<Photo>(entity => {
@@ -38,11 +37,6 @@ namespace Trucks.Api.DataAccess.Data
                 entity.Property(t => t.Name).IsRequired();
             });
 
-            modelBuilder.Entity<TruckInventory>(entity => {
-                entity.Property(ti => ti.Quantity).IsRequired();
-
-
-            });
             modelBuilder.Entity<TruckCategory>(entity => {
                 entity.HasKey(tc => new { tc.TruckId, tc.CategoryId });
                 entity.HasOne(tc => tc.Category)

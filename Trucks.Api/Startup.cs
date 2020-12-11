@@ -30,7 +30,7 @@ namespace Trucks.Api
             services.AddControllers().AddNewtonsoftJson();
             services.AddScoped<ITrucksRepository, TrucksRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IInventoryRepository, InventoryRepository>();
+
             services.AddControllers();
         }
 
