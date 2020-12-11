@@ -8,11 +8,8 @@ namespace Trucks.Api.DataAccess.Services
     {
 
         Task<IEnumerable<Truck>> GetTrucksAsync();
-
-
         Task<IEnumerable<Truck>> GetTrucksByCategoryAsync(int categoryId);
         Task<IEnumerable<Truck>> GetHiddenTrucksAsync();
-
 
         Task<Truck> GetTruckAsync(int truckId);
 
@@ -26,7 +23,6 @@ namespace Trucks.Api.DataAccess.Services
 
         Task<bool> SaveChangesAsync();
 
-        Task SimpleChangeTester();
         bool HasChanges();
     }
 }

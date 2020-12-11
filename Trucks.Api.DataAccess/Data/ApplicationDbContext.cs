@@ -20,6 +20,8 @@ namespace Trucks.Api.DataAccess.Data
                 entity.Property(t => t.Name).IsRequired();
                 entity.Property(t => t.Description).IsRequired();
                 entity.Property(t => t.Price).IsRequired();
+                //entity.HasMany(d => d.Photos)
+                //              .WithOne(f => f.Truck);
                 //entity.HasOne(t => t.TruckInventory)
                 //      .WithOne(ti => ti.Truck)
                 //      .HasForeignKey<Truck>(t => t.TruckInventoryId)

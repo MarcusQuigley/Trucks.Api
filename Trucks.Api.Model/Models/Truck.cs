@@ -2,7 +2,7 @@
 
 namespace Trucks.Api.Model.Models
 {
-    public class Truck
+    public class Truck //publisher
     {
         public int TruckId { get; set; }
         public string Name { get; set; }
@@ -17,7 +17,7 @@ namespace Trucks.Api.Model.Models
 
 
         public ICollection<Photo> Photos { get; set; }
-         = new List<Photo>();
+        //   = new List<Photo>();
         public ICollection<TruckCategory> TruckCategories { get; set; }
          = new List<TruckCategory>();
         public ICollection<SalesOrderDetail> Sales { get; set; }

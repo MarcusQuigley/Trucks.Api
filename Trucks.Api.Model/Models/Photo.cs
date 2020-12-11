@@ -1,6 +1,6 @@
 ﻿namespace Trucks.Api.Model.Models
 {
-    public class Photo
+    public class Photo  //book
     {
         public int PhotoId { get; set; }
         public string PhotoPath { get; set; }

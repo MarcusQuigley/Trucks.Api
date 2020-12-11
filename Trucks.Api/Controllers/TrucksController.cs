@@ -66,7 +66,7 @@ namespace Trucks.Api.Controllers
         }
 
         [HttpPatch("{truckId}")]
-        public async Task<ActionResult> PatchAuthor(int truckId, [FromBody] JsonPatchDocument<Dto.TruckDto> truckPatch)
+        public async Task<ActionResult> PatchTruck(int truckId, [FromBody] JsonPatchDocument<Dto.TruckDto> truckPatch)
         {
             if (truckPatch == null) {
                 return BadRequest();
@@ -94,6 +94,25 @@ namespace Trucks.Api.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateTruck([FromBody] Dto.TruckDto truckDto)
+        {
+            if (truckDto == null) return BadRequest();
+            var truck = await _trucksRepository.GetTruckAsync(truckDto.TruckId);
+            if (truck == null) return BadRequest();
+            if (!TryValidateModel(truckDto))
+                return ValidationProblem(this.ModelState);
+            _mapper.Map(truckDto, truck);
+            _trucksRepository.UpdateTruck(truck);
+            if (await _trucksRepository.SaveChangesAsync() != false) {
+                truckDto = _mapper.Map<Dto.TruckDto>(truck);
+                return CreatedAtRoute("GetTruck", new { truckId = truckDto.TruckId }, truckDto);
+            }
+            return BadRequest();
+
+        }
+
 
 
     }
