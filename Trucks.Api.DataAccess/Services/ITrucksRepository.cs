@@ -22,9 +22,11 @@ namespace Trucks.Api.DataAccess.Services
         void AddTruckCategory(int truckId, int categoryId);
         Task AddTruckPhotoAsync(Photo truckPhoto);
         Task UpdateDefaultPhotoAsync(Photo truckPhoto);
-
+        void UpdateTruck(Truck truck);
 
         Task<bool> SaveChangesAsync();
 
+        Task SimpleChangeTester();
+        bool HasChanges();
     }
 }

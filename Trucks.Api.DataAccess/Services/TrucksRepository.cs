@@ -95,6 +95,11 @@ namespace Trucks.Api.DataAccess.Services
             }
 
         }
+        public void UpdateTruck(Truck truck)
+        {
+            //Nothing to add. ef will note that the record is dirty. Need to call Save though..
+        }
+
         private async Task<bool> HasTruckDefaultPhoto(int truckId)
         {
             if (await TruckExistsAsync(truckId))
@@ -109,11 +114,15 @@ namespace Trucks.Api.DataAccess.Services
             throw new NotImplementedException();
         }
 
-
+        public bool HasChanges()
+        {
+            return _context.ChangeTracker.HasChanges();
+        }
 
         public async Task<bool> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync() > 0;
+
+            return await _context.SaveChangesAsync() >= 0;
         }
     }
 }

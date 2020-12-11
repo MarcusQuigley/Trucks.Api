@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Trucks.Api.ControllerFilters;
@@ -63,5 +64,37 @@ namespace Trucks.Api.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPatch("{truckId}")]
+        public async Task<ActionResult> PatchAuthor(int truckId, [FromBody] JsonPatchDocument<Dto.TruckDto> truckPatch)
+        {
+            if (truckPatch == null) {
+                return BadRequest();
+            }
+
+            var truck = await _trucksRepository.GetTruckAsync(truckId);
+            if (truck == null) {
+                return NotFound();
+            }
+            var truckDtoToPatch = _mapper.Map<Dto.TruckDto>(truck);
+
+            truckPatch.ApplyTo(truckDtoToPatch, ModelState);
+
+            if (!TryValidateModel(truckDtoToPatch)) {
+                return ValidationProblem(this.ModelState);
+            }
+
+            // truck = _mapper.Map<Truck>(truckDtoToPatch);
+            _mapper.Map(truckDtoToPatch, truck);
+
+            _trucksRepository.UpdateTruck(truck);
+
+            if (await _trucksRepository.SaveChangesAsync() != false) {
+                return NoContent();
+            }
+            return BadRequest();
+        }
+
+
     }
 }
