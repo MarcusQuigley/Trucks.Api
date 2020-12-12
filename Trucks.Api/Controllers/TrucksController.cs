@@ -29,6 +29,14 @@ namespace Trucks.Api.Controllers
             return Ok(modelTrucks);
         }
 
+        [HttpGet("trucksbycategory/{categoryId:int}")]
+        [TrucksResultFilter]
+        public async Task<ActionResult> GetTrucksByCategoryAsync(int categoryId)
+        {
+            var modelTrucks = await _trucksRepository.GetTrucksByCategoryAsync(categoryId);
+            return Ok(modelTrucks);
+        }
+
         [HttpGet("{truckId:int}", Name = "GetTruck")]
         [TruckResultFilter]
         public async Task<ActionResult> GetTruckAsync(int truckId)

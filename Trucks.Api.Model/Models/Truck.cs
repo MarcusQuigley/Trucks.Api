@@ -2,7 +2,7 @@
 
 namespace Trucks.Api.Model.Models
 {
-    public class Truck //publisher
+    public class Truck
     {
         public int TruckId { get; set; }
         public string Name { get; set; }
@@ -16,11 +16,11 @@ namespace Trucks.Api.Model.Models
         public string DefaultPhotoPath { get; set; }
 
 
-        public ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
         //   = new List<Photo>();
-        public ICollection<TruckCategory> TruckCategories { get; set; }
-         = new List<TruckCategory>();
-        public ICollection<SalesOrderDetail> Sales { get; set; }
+        public virtual ICollection<TruckCategory> TruckCategories { get; set; }
+        //= new List<TruckCategory>();
+        public virtual ICollection<SalesOrderDetail> Sales { get; set; }
          = new List<SalesOrderDetail>();
 
     }

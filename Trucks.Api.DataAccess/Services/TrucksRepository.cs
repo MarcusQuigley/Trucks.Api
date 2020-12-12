@@ -32,18 +32,29 @@ namespace Trucks.Api.DataAccess.Services
 
         public async Task<IEnumerable<Truck>> GetHiddenTrucksAsync()
         {
-            return await _context.Trucks.Where(t => t.Hidden == true).ToListAsync();
+            return await _context.Trucks.Where(t => t.Hidden == true)
+                                        .Include(t => t.TruckCategories)
+                                        .ThenInclude(t => t.Category)
+                                        .Include(t => t.Photos)
+                                        .ToListAsync();
         }
 
         public async Task<Truck> GetTruckAsync(int truckId)
         {
-            return await _context.Trucks.FirstOrDefaultAsync(t => t.TruckId == truckId);
+            return await _context.Trucks.Include(t => t.TruckCategories)
+                                        .ThenInclude(t => t.Category)
+                                        // .Include(t => t.)
+                                        .Include(t => t.Photos)
+
+                                        .FirstOrDefaultAsync(t => t.TruckId == truckId);
+
         }
 
         public async Task<IEnumerable<Truck>> GetTrucksAsync()
         {
             return await _context.Trucks.Where(t => t.Hidden == false)
                                         .Include(t => t.TruckCategories)
+                                        .ThenInclude(t => t.Category)
                                         .Include(t => t.Photos)
                                         .ToListAsync();
         }
@@ -53,6 +64,8 @@ namespace Trucks.Api.DataAccess.Services
             return await _context.Trucks.Where(t => t.Hidden == false)
                                         .Where(t => t.TruckCategories.Any(c => c.CategoryId == categoryId))
                                         .Include(t => t.TruckCategories)
+                                        .ThenInclude(t => t.Category)
+                                        .Include(t => t.Photos)
                                         .ToListAsync();
         }
         public async Task AddTruckAsync(Truck truck)

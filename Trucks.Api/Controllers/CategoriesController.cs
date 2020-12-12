@@ -43,6 +43,7 @@ namespace Trucks.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateCategoryAsync(CategoryDto category)
         {
+            if (category == null) return BadRequest();
             var categoryModel = _mapper.Map<Category>(category);
             await _categoryRepository.AddCategoryAsync(categoryModel);
             if (await _categoryRepository.SaveChangesAsync() != false) {
@@ -52,6 +53,18 @@ namespace Trucks.Api.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
+        [Route("truckcategory")]
+        public async Task<ActionResult> CreateTruckCategory([FromBody] Dto.TruckCategoryDto truckCategoryDto)
+        {
+            if (truckCategoryDto == null) return BadRequest();
+            var truckCategory = _mapper.Map<TruckCategory>(truckCategoryDto);
+            await _categoryRepository.AddTruckCategory(truckCategory);
+            if (await _categoryRepository.SaveChangesAsync() != false)
+                return NoContent();
+            return BadRequest();
+
+        }
         [HttpDelete("{categoryId:int}")]
         public async Task<ActionResult> DeleteCategoryAsync(int categoryId)
         {

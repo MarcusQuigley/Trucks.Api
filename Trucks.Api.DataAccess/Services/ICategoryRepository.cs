@@ -11,7 +11,7 @@ namespace Trucks.Api.DataAccess.Services
         Task AddCategoryAsync(Category category);
         void UpdateCategory(Category category);
         Task DeleteCategoryAsync(Category category);
-        void AddTruckCategory(TruckCategory truckCategory);
+        Task AddTruckCategory(TruckCategory truckCategory);
         Task<bool> SaveChangesAsync();
     }
 }

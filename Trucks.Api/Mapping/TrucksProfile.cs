@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Linq;
 using Trucks.Api.Model.Models;
 
 namespace Trucks.Api.Mapping
@@ -7,15 +8,22 @@ namespace Trucks.Api.Mapping
     {
         public TrucksProfile()
         {
-            CreateMap<Truck, Dto.TruckDto>();
+            CreateMap<Truck, Dto.TruckDto>()
+                .ForMember(
+                    dto => dto.Categories,
+                    opt => opt.MapFrom(
+                        t => t.TruckCategories.Select(tc => tc.Category)))
+                    ;
+
             CreateMap<Dto.TruckDto, Truck>()
-                .ReverseMap();
-
-            //CreateMap<TruckCategory, Dto.TruckCategoryDto>();
-            //CreateMap<Dto.TruckCategoryDto, TruckCategory>()
-            //    .ReverseMap();
-
-
+                .ForMember(
+                    t => t.TruckCategories,
+                    opt => opt.MapFrom(m => m.Categories))
+                .AfterMap((dto, model) => {
+                    foreach (var tc in model.TruckCategories)
+                        tc.Truck = model;
+                });
+            //.ReverseMap();
 
         }
     }

@@ -6,6 +6,6 @@ namespace Trucks.Api.Model.Models
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }
-        public ICollection<TruckCategory> TruckCategories { get; set; }
+        public virtual ICollection<TruckCategory> TruckCategories { get; set; }
     }
 }

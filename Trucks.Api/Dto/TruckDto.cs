@@ -16,6 +16,8 @@ namespace Trucks.Api.Dto
 
         //public ICollection<TruckCategoryDto> Categories { get; set; }
         //   = new List<TruckCategoryDto>();
+        public ICollection<CategoryDto> Categories { get; set; }
+         = new List<CategoryDto>();
 
         public ICollection<PhotoDto> Photos { get; set; }
             = new List<PhotoDto>();

@@ -26,6 +26,11 @@ namespace Trucks.Api.DataAccess.Services
             return await _context.Categories.AnyAsync(c => c.CategoryId == categoryId);
         }
 
+        private async Task<bool> TruckExistsAsync(int truckId)
+        {
+            return await _context.Trucks.AnyAsync(t => t.TruckId == truckId);
+        }
+
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             return await _context.Categories.ToListAsync();
@@ -55,9 +60,11 @@ namespace Trucks.Api.DataAccess.Services
                 _context.Categories.Remove(category);
         }
 
-        public void AddTruckCategory(TruckCategory truckCategory)
+        public async Task AddTruckCategory(TruckCategory truckCategory)
         {
-            throw new NotImplementedException();
+            if (await CategoryExistsAsync(truckCategory.CategoryId) && await TruckExistsAsync(truckCategory.TruckId)) {
+                await _context.TruckCategories.AddAsync(truckCategory);
+            }
         }
 
         public async Task<bool> SaveChangesAsync()
