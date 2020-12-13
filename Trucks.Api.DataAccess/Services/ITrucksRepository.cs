@@ -16,9 +16,12 @@ namespace Trucks.Api.DataAccess.Services
         Task AddTruckAsync(Truck truck);
         Task DeleteTruckAsync(Truck truck);
 
-        void AddTruckCategory(int truckId, int categoryId);
+        // void AddTruckCategory(int truckId, int categoryId);
         Task AddTruckPhotoAsync(Photo truckPhoto);
         Task UpdateDefaultPhotoAsync(Photo truckPhoto);
+
+        Task AddSaleAsync(SalesOrderDetail salesDetail);
+
         void UpdateTruck(Truck truck);
 
         Task<bool> SaveChangesAsync();

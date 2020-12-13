@@ -121,7 +121,18 @@ namespace Trucks.Api.Controllers
 
         }
 
-
+        [HttpPost]
+        [Route("trucksale")]
+        public async Task<ActionResult> CreateTruckSale([FromBody] Dto.SalesDto sodDto)
+        {
+            if (ModelState.IsValid) {
+                var sodModel = _mapper.Map<SalesOrderDetail>(sodDto);
+                await _trucksRepository.AddSaleAsync(sodModel);
+                if (await _trucksRepository.SaveChangesAsync() != false)
+                    return Ok();
+            }
+            return BadRequest();
+        }
 
     }
 }

@@ -14,8 +14,8 @@ namespace Trucks.Api.Dto
         public string Description { get; set; }
         public string DefaultPhotoPath { get; set; }
 
-        //public ICollection<TruckCategoryDto> Categories { get; set; }
-        //   = new List<TruckCategoryDto>();
+        public ICollection<TruckCategoryDto> TruckCategories { get; set; }
+           = new List<TruckCategoryDto>();
         public ICollection<CategoryDto> Categories { get; set; }
          = new List<CategoryDto>();
 

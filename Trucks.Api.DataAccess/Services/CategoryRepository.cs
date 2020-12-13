@@ -62,6 +62,9 @@ namespace Trucks.Api.DataAccess.Services
 
         public async Task AddTruckCategory(TruckCategory truckCategory)
         {
+            if (truckCategory == null)
+                throw new ArgumentNullException(nameof(truckCategory));
+
             if (await CategoryExistsAsync(truckCategory.CategoryId) && await TruckExistsAsync(truckCategory.TruckId)) {
                 await _context.TruckCategories.AddAsync(truckCategory);
             }

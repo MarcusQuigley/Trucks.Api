@@ -85,13 +85,16 @@ namespace Trucks.Api.DataAccess.Services
             await _context.Trucks.AddAsync(truck);
         }
 
-        public void AddTruckCategory(int truckId, int categoryId)
-        {
-            throw new NotImplementedException();
-        }
+        //public void AddTruckCategory(int truckId, int categoryId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task AddTruckPhotoAsync(Photo truckPhoto)
         {
+            if (truckPhoto == null)
+                throw new ArgumentNullException(nameof(truckPhoto));
+
             if (await TruckExistsAsync(truckPhoto.TruckId)) {
                 await _context.TruckPhotos.AddAsync(truckPhoto);
                 if (!await HasTruckDefaultPhoto(truckPhoto.TruckId))
@@ -101,6 +104,9 @@ namespace Trucks.Api.DataAccess.Services
 
         public async Task UpdateDefaultPhotoAsync(Photo truckPhoto)
         {
+            if (truckPhoto == null)
+                throw new ArgumentNullException(nameof(truckPhoto));
+
             var truck = await GetTruckAsync(truckPhoto.TruckId);
             if (truck != null) {
                 truck.DefaultPhotoPath = truckPhoto.PhotoPath;
@@ -136,6 +142,19 @@ namespace Trucks.Api.DataAccess.Services
         {
 
             return await _context.SaveChangesAsync() >= 0;
+        }
+
+        public async Task AddSaleAsync(SalesOrderDetail salesDetail)
+        {
+            throw new NotImplementedException();
+            //if (salesDetail == null)
+            //    throw new ArgumentNullException(nameof(salesDetail));
+
+            //if (await TruckExistsAsync(salesDetail.TruckId)) {
+            //    salesDetail.ModifiedDate = DateTime.Now;
+            //    await _context.SalesOrderHeader.AddAsync(salesDetail);
+
+            //}
         }
     }
 }

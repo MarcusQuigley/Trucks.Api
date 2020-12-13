@@ -14,6 +14,8 @@ namespace Trucks.Api.DataAccess.Data
         public DbSet<TruckCategory> TruckCategories { get; set; }
 
         public DbSet<Photo> TruckPhotos { get; set; }
+        public DbSet<SalesOrderHeader> SalesOrderHeader { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Truck>(entity => {
@@ -23,6 +25,9 @@ namespace Trucks.Api.DataAccess.Data
                 entity.HasMany(d => d.Photos)
                               .WithOne(f => f.Truck)
                               .HasForeignKey(d => d.TruckId);
+                //entity.HasMany(t => t.Sales)
+                //              .WithOne(sod => sod.Truck)
+                //              .HasForeignKey(sod => sod.TruckId);
                 //entity.HasOne(t => t.TruckInventory)
                 //      .WithOne(ti => ti.Truck)
                 //      .HasForeignKey<Truck>(t => t.TruckInventoryId)
@@ -51,21 +56,25 @@ namespace Trucks.Api.DataAccess.Data
 
             });
 
-            modelBuilder.Entity<SalesOrder>(entity => {
+            modelBuilder.Entity<SalesOrderHeader>(entity => {
                 entity.Property(so => so.OrderDate).IsRequired();
-                entity.Property(so => so.CustomerDetailsId).IsRequired();
+                entity.Property(so => so.CustomerEmail).IsRequired();
                 entity.Property(so => so.TotalDue).IsRequired();
-                entity.Property(so => so.SalesOrderDetailId).IsRequired();
-                entity.HasOne(so => so.SalesDetail)
-                      .WithOne(sod => sod.SalesOrder)
-                      .HasForeignKey<SalesOrderDetail>(sod => sod.SalesOrderDetailId);
+                //entity.Property(so => so.SalesOrderDetailId).IsRequired();
+                entity.HasMany(so => so.SalesDetails)
+                             .WithOne(sod => sod.SalesOrder)
+                             .HasForeignKey(sod => sod.SalesOrderDetailId);
+
             });
 
             modelBuilder.Entity<SalesOrderDetail>(entity => {
                 entity.Property(sod => sod.Quantity).IsRequired();
-                entity.HasOne(sod => sod.Truck)
-                              .WithMany(t => t.Sales)
-                              .HasForeignKey(p => p.TruckId);
+                entity.HasOne(sod => sod.SalesOrder)
+                     .WithMany(so => so.SalesDetails)
+                     .HasForeignKey(sod => sod.SalesOrderDetailId);
+                //entity.HasOne(sod => sod.Truck)
+                //              .WithMany(t => t.Sales)
+                //              .HasForeignKey(p => p.TruckId);
             });
 
         }

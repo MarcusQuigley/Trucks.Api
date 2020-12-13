@@ -9,8 +9,8 @@ using Trucks.Api.DataAccess.Data;
 namespace Trucks.Api.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201211155133_anotherfuckingone")]
-    partial class anotherfuckingone
+    [Migration("20201212224234_readdingmigrations")]
+    partial class readdingmigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,32 +54,6 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.ToTable("TruckPhotos");
                 });
 
-            modelBuilder.Entity("Trucks.Api.Model.Models.SalesOrder", b =>
-                {
-                    b.Property<int>("SalesOrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerDetailsId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("SalesOrderDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalDue")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("SalesOrderId");
-
-                    b.ToTable("SalesOrder");
-                });
-
             modelBuilder.Entity("Trucks.Api.Model.Models.SalesOrderDetail", b =>
                 {
                     b.Property<int>("SalesOrderDetailId")
@@ -91,7 +65,7 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SalesOrderId")
+                    b.Property<int>("SalesOrderHeaderId")
                         .HasColumnType("int");
 
                     b.Property<int>("TruckId")
@@ -102,6 +76,30 @@ namespace Trucks.Api.DataAccess.Migrations
                     b.HasIndex("TruckId");
 
                     b.ToTable("SalesOrderDetail");
+                });
+
+            modelBuilder.Entity("Trucks.Api.Model.Models.SalesOrderHeader", b =>
+                {
+                    b.Property<int>("SalesOrderHeaderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CustomerEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("TotalDue")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.HasKey("SalesOrderHeaderId");
+
+                    b.ToTable("SalesOrderHeader");
                 });
 
             modelBuilder.Entity("Trucks.Api.Model.Models.Truck", b =>
@@ -170,13 +168,13 @@ namespace Trucks.Api.DataAccess.Migrations
 
             modelBuilder.Entity("Trucks.Api.Model.Models.SalesOrderDetail", b =>
                 {
-                    b.HasOne("Trucks.Api.Model.Models.SalesOrder", "SalesOrder")
-                        .WithOne("SalesDetail")
-                        .HasForeignKey("Trucks.Api.Model.Models.SalesOrderDetail", "SalesOrderDetailId")
+                    b.HasOne("Trucks.Api.Model.Models.SalesOrderHeader", "SalesOrder")
+                        .WithMany("SalesDetails")
+                        .HasForeignKey("SalesOrderDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Trucks.Api.Model.Models.Truck", "Truck")
+                    b.HasOne("Trucks.Api.Model.Models.Truck", null)
                         .WithMany("Sales")
                         .HasForeignKey("TruckId")
                         .OnDelete(DeleteBehavior.Cascade)

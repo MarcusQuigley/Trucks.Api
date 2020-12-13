@@ -18,7 +18,7 @@ namespace Trucks.Api.Mapping
             CreateMap<Dto.TruckDto, Truck>()
                 .ForMember(
                     t => t.TruckCategories,
-                    opt => opt.MapFrom(m => m.Categories))
+                    opt => opt.MapFrom(dto => dto.TruckCategories))
                 .AfterMap((dto, model) => {
                     foreach (var tc in model.TruckCategories)
                         tc.Truck = model;

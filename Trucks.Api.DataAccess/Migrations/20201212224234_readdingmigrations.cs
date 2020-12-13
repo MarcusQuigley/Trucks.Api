@@ -4,7 +4,7 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Trucks.Api.DataAccess.Migrations
 {
-    public partial class anotherfuckingone : Migration
+    public partial class readdingmigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,20 +22,19 @@ namespace Trucks.Api.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SalesOrder",
+                name: "SalesOrderHeader",
                 columns: table => new
                 {
-                    SalesOrderId = table.Column<int>(nullable: false)
+                    SalesOrderHeaderId = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     OrderDate = table.Column<DateTime>(nullable: false),
-                    CustomerDetailsId = table.Column<int>(nullable: false),
+                    CustomerEmail = table.Column<string>(nullable: false),
                     TotalDue = table.Column<decimal>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    SalesOrderDetailId = table.Column<int>(nullable: false)
+                    ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SalesOrder", x => x.SalesOrderId);
+                    table.PrimaryKey("PK_SalesOrderHeader", x => x.SalesOrderHeaderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +63,7 @@ namespace Trucks.Api.DataAccess.Migrations
                 columns: table => new
                 {
                     SalesOrderDetailId = table.Column<int>(nullable: false),
-                    SalesOrderId = table.Column<int>(nullable: false),
+                    SalesOrderHeaderId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     TruckId = table.Column<int>(nullable: false)
@@ -73,10 +72,10 @@ namespace Trucks.Api.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_SalesOrderDetail", x => x.SalesOrderDetailId);
                     table.ForeignKey(
-                        name: "FK_SalesOrderDetail_SalesOrder_SalesOrderDetailId",
+                        name: "FK_SalesOrderDetail_SalesOrderHeader_SalesOrderDetailId",
                         column: x => x.SalesOrderDetailId,
-                        principalTable: "SalesOrder",
-                        principalColumn: "SalesOrderId",
+                        principalTable: "SalesOrderHeader",
+                        principalColumn: "SalesOrderHeaderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SalesOrderDetail_Trucks_TruckId",
@@ -158,7 +157,7 @@ namespace Trucks.Api.DataAccess.Migrations
                 name: "TruckPhotos");
 
             migrationBuilder.DropTable(
-                name: "SalesOrder");
+                name: "SalesOrderHeader");
 
             migrationBuilder.DropTable(
                 name: "Categories");
