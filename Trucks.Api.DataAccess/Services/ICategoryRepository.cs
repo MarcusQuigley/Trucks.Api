@@ -7,6 +7,7 @@ namespace Trucks.Api.DataAccess.Services
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetCategoriesAsync();
+        Task<IEnumerable<Category>> GetCategoriesByTypeAsync(bool isMini);
         Task<Category> GetCategoryAsync(int categoryId);
         Task AddCategoryAsync(Category category);
         void UpdateCategory(Category category);

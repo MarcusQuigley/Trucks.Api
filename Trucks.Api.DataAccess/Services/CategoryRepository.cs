@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Trucks.Api.DataAccess.Data;
@@ -34,6 +35,12 @@ namespace Trucks.Api.DataAccess.Services
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             return await _context.Categories.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoriesByTypeAsync(bool isMini)
+        {
+            return await _context.Categories.Where(c => c.IsMini == isMini)
+                                            .ToListAsync();
         }
 
         public async Task<Category> GetCategoryAsync(int categoryId)

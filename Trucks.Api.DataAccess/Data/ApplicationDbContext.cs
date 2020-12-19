@@ -43,6 +43,7 @@ namespace Trucks.Api.DataAccess.Data
 
             modelBuilder.Entity<Category>(entity => {
                 entity.Property(t => t.Name).IsRequired();
+                entity.Property(t => t.IsMini).HasDefaultValue(false);
             });
 
             modelBuilder.Entity<TruckCategory>(entity => {

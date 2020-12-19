@@ -6,6 +6,8 @@ namespace Trucks.Api.Model.Models
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }
+        public bool IsMini { get; set; }
+        public int Order { get; set; }
         public virtual ICollection<TruckCategory> TruckCategories { get; set; }
     }
 }

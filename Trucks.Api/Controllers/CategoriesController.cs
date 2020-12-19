@@ -31,6 +31,15 @@ namespace Trucks.Api.Controllers
 
         }
 
+        [HttpGet("{isMini:bool}")]
+        [CategoriesResultFilter]
+        public async Task<ActionResult> GetCategoriesByTypeAsync(bool isMini)
+        {
+            var categoriesModels = await _categoryRepository.GetCategoriesByTypeAsync(isMini);
+            return Ok(categoriesModels);
+
+        }
+
         [HttpGet("{categoryId:int}", Name = "GetCategory")]
         [CategoryResultFilter]
         public async Task<ActionResult> GetCategoryAsync(int categoryId)
