@@ -19,8 +19,9 @@
     },
     "Truck.Api": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "launchUrl": "weatherforecast",
+      "dotnetRunMessages": "true",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
       "applicationUrl": "https://localhost:6601;http://localhost:6600",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

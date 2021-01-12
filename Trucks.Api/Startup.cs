@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System;
 using Trucks.Api.DataAccess.Data;
@@ -35,6 +36,10 @@ namespace Trucks.Api
 
             services.AddScoped<ITrucksRepository, TrucksRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc("v1", new OpenApiInfo { Title= "Trucks.Api", Version="v1"});
+                });
 
 
         }
@@ -44,6 +49,8 @@ namespace Trucks.Api
         {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(setupAction => setupAction.SwaggerEndpoint("/swagger/v1/swagger.json", "Trucks.Api"));
             }
 
             app.UseHttpsRedirection();
